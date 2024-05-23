@@ -1,0 +1,66 @@
+{% include 'components/navbar.html' %}
+{% block content %}
+<title>Profile Detail</title>
+<body>
+    <div class="max-w-2xl mx-auto p-6 bg-white rounded shadow-md mt-10">
+        <h1 class="text-3xl font-bold mb-4">รายละเอียดโปรไฟล์เกม</h1>
+        {% if has_profile %}        
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-600">ชื่อในเกม:</label>
+            <p class="mt-1 p-2 w-full border rounded-md">{{ player_profile.player_name }}</p>
+        </div>
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-600">เกม:</label>
+            <p class="mt-1 p-2 w-full border rounded-md">{{ player_profile.game }}</p>
+        </div>
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-600">ชื่อ-สกุล:</label>
+            <p class="mt-1 p-2 w-full border rounded-md">{{ player_profile.name_lastname }}</p>
+        </div>
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-600">อายุ:</label>
+            <p class="mt-1 p-2 w-full border rounded-md">{{ player_profile.age }}</p>
+        </div>
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-600">เพศ:</label>
+            <p class="mt-1 p-2 w-full border rounded-md">{{ player_profile.gender }}</p>
+        </div>
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-600">จังหวัดที่อยู่ปัจจุบัน:</label>
+            <p class="mt-1 p-2 w-full border rounded-md">{{ player_profile.province }}</p>
+        </div>
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-600">เบอร์โทรศัพท์:</label>
+            <p class="mt-1 p-2 w-full border rounded-md">{{ player_profile.phone_number }}</p>
+        </div>
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-600">Facebook:</label>
+            <p class="mt-1 p-2 w-full border rounded-md">{{ player_profile.facebook }}</p>
+        </div>
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-600">Line:</label>
+            <p class="mt-1 p-2 w-full border rounded-md">{{ player_profile.line }}</p>
+        </div>
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-600">คำอธิบายตัวเอง:</label>
+            <p class="mt-1 p-2 w-full border rounded-md">{{ player_profile.description }}</p>
+        </div>
+        <h2 class="text-xl font-bold mb-4">ผลงาน & โปรไฟล์</h2>
+        <div class="space-y-4">
+            {% for picture in work_pictures %}
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-600">รูปภาพ</label>
+                    <img src="{{ picture.image.url }}" alt="Work Picture" class="mt-1 p-2 w-full border rounded-md">
+                </div>
+            {% endfor %}
+        </div>
+        <div class="mb-6">
+            <a href="{% url 'edit_profile' %}" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700">แก้ไขโปรไฟล์</a>
+        </div>
+        {% else %}
+                <p>ยังไม่มีโปรไฟล์กรุณาสร้างโปรไฟล์ก่อน</p>
+
+        {% endif %}
+    </div>
+</body>
+{% endblock %}

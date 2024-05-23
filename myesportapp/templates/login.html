@@ -1,0 +1,29 @@
+{% include 'components/navbar.html' %}
+{% block content %}
+<title>Login</title>
+<body>
+    <div class="bg-white p-8 rounded shadow-md w-96 mx-auto mt-20">
+        <h1 class="text-4xl font-bold mb-8">Login</h1>
+
+        <form method="post" action="{% url 'login' %}" class="space-y-4">
+            {% csrf_token %}
+            <div>
+                <label for="username" class="block text-sm font-medium text-gray-600">Username:</label>
+                <input type="text" id="username" name="username" required
+                       class="mt-1 p-2 w-full border rounded-md">
+            </div>
+
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-600">Password:</label>
+                <input type="password" id="password" name="password" required
+                       class="mt-1 p-2 w-full border rounded-md">
+            </div>
+
+            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700">Login</button>
+        </form>
+        <div class="text-center">
+            <a href="{% url 'register' %}">สมัครสมาชิก</a>
+        </div>
+    </div>
+</body>
+{% endblock %}

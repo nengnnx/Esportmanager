@@ -1,0 +1,61 @@
+{% include 'components/navbar.html' %}
+{% block content %}
+<title>Edit Profile</title>
+<body>
+    <div class="max-w-2xl mx-auto p-6 bg-white rounded shadow-md mt-10">
+        <h1 class="text-3xl font-bold mb-4">แก้ไขโปรไฟล์</h1>
+        <form action="" method="post" enctype="multipart/form-data" class="space-y-4">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="{{ form.player_name.id_for_label }}" class="block text-sm font-medium text-gray-600">ชื่อในเกม:</label>
+                {{ form.player_name }}
+            </div>
+            <div class="mb-4">
+                <label for="{{ form.game.id_for_label }}" class="block text-sm font-medium text-gray-600">เกม:</label>
+                <select id="{{ form.game.id_for_label }}" name="{{ form.game.html_name }}" required
+                        class="mt-1 p-2 w-full border rounded-md">
+                    <option value="" selected disabled>กรุณาเลือกเกม</option>
+                    <option value="Valorant" {% if form.game.value == "Valorant" %} selected {% endif %}>Valorant</option>
+                    <option value="ROV" {% if form.game.value == "ROV" %} selected {% endif %}>ROV</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="{{ form.name_lastname.id_for_label }}" class="block text-sm font-medium text-gray-600">ชื่อ-สกุล:</label>
+                {{ form.name_lastname }}
+            </div>
+            <div class="mb-4">
+                <label for="{{ form.age.id_for_label }}" class="block text-sm font-medium text-gray-600">อายุ:</label>
+                {{ form.age }}
+            </div>
+            <div class="mb-4">
+                <label for="{{ form.gender.id_for_label }}" class="block text-sm font-medium text-gray-600">เพศ:</label>
+                {{ form.gender }}
+            </div>
+            <div class="mb-4">
+                <label for="{{ form.province.id_for_label }}" class="block text-sm font-medium text-gray-600">จังหวัดที่อยู่ปัจจุบัน:</label>
+                {{ form.province }}
+            </div>
+            <div class="mb-4">
+                <label for="{{ form.phone_number.id_for_label }}" class="block text-sm font-medium text-gray-600">เบอร์โทรศัพท์:</label>
+                {{ form.phone_number }}
+            </div>
+            <div class="mb-4">
+                <label for="{{ form.facebook.id_for_label }}" class="block text-sm font-medium text-gray-600">Facebook:</label>
+                {{ form.facebook }}
+            </div>
+            <div class="mb-4">
+                <label for="{{ form.line.id_for_label }}" class="block text-sm font-medium text-gray-600">Line:</label>
+                {{ form.line }}
+            </div>
+            <div class="mb-4">
+                <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-600">คำอธิบายตัวเอง:</label>
+                {{ form.description }}
+            </div>
+            <div class="flex justify-between">
+                <a href="{% url 'profile_detail' %}" class="bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-600">กลับไปดูโปรไฟล์</a>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700">บันทึกการแก้ไข</button>
+            </div>
+        </form>
+    </div>
+</body>
+{% endblock %}

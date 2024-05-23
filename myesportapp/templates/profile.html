@@ -1,0 +1,75 @@
+{% include 'components/navbar.html' %}
+{% block content %}
+<title>Profile</title>
+<body>
+    <div class="max-w-2xl mx-auto p-6 bg-white rounded shadow-md mt-10">
+        <h1 class="text-3xl font-bold mb-4">โปรไฟล์เกม</h1>
+        <form action="" method="post" enctype="multipart/form-data" class="space-y-4">
+            {% csrf_token %}
+            <div class="mb-6">
+                <label for="{{ profile_form.player_name.id_for_label }}" class="block text-sm font-medium text-gray-600">ชื่อในเกม</label>
+                <input type="text" id="{{ profile_form.player_name.id_for_label }}" name="{{ profile_form.player_name.html_name }}" required
+                       class="mt-1 p-2 w-full border rounded-md" >
+            </div>
+            <div class="mb-6">
+                <label for="{{ profile_form.game.id_for_label }}" class="block text-sm font-medium text-gray-600">เกม</label>
+                <select id="{{ profile_form.game.id_for_label }}" name="{{ profile_form.game.html_name }}" required
+                    class="mt-1 p-2 w-full border rounded-md">
+                <option value="" selected disabled>กรุณาเลือกเกม</option>
+                <option value="Valorant">Valorant</option>
+                <option value="ROV">ROV</option>
+                <!-- เพิ่มตัวเลือกของเกมต่าง ๆ ตามที่คุณต้องการ -->
+             </select>
+            </div>
+            <div class="mb-6">
+                <label for="{{ profile_form.name_lastname.id_for_label }}" class="block text-sm font-medium text-gray-600">ชื่อ-สกุล</label>
+                <input type="text" id="{{ profile_form.name_lastname.id_for_label }}" name="{{ profile_form.name_lastname.html_name }}" required
+                       class="mt-1 p-2 w-full border rounded-md" >
+            </div>
+            <div class="mb-6">
+                <label for="{{ profile_form.age.id_for_label }}" class="block text-sm font-medium text-gray-600">อายุ</label>
+                <input type="text" id="{{ profile_form.age.id_for_label }}" name="{{ profile_form.age.html_name }}" required
+                       class="mt-1 p-2 w-full border rounded-md" >
+            </div>
+            <div class="mb-6">
+                <label for="{{ profile_form.gender.id_for_label }}" class="block text-sm font-medium text-gray-600">เพศ</label>
+                {{ profile_form.gender }}
+            </div>
+            <div class="mb-6">
+                <label for="{{ profile_form.province.id_for_label }}" class="block text-sm font-medium text-gray-600">จังหวัดที่อยู่ปัจจุบัน</label>
+                <input type="text" id="{{ profile_form.province.id_for_label }}" name="{{ profile_form.province.html_name }}" required
+                       class="mt-1 p-2 w-full border rounded-md" >
+            </div>
+            <div class="mb-6">
+                <label for="{{ profile_form.phone_number.id_for_label }}" class="block text-sm font-medium text-gray-600">เบอร์โทรศัพท์</label>
+                <input type="text" id="{{ profile_form.phone_number.id_for_label }}" name="{{ profile_form.phone_number.html_name }}" required
+                       class="mt-1 p-2 w-full border rounded-md" >
+            </div>
+            <div class="mb-6">
+                <label for="{{ profile_form.facebook.id_for_label }}" class="block text-sm font-medium text-gray-600">Facebook</label>
+                <input type="text" id="{{ profile_form.facebook.id_for_label }}" name="{{ profile_form.facebook.html_name }}" required
+                       class="mt-1 p-2 w-full border rounded-md" >
+            </div>
+            <div class="mb-6">
+                <label for="{{ profile_form.line.id_for_label }}" class="block text-sm font-medium text-gray-600">Line</label>
+                <input type="text" id="{{ profile_form.line.id_for_label }}" name="{{ profile_form.line.html_name }}" required
+                       class="mt-1 p-2 w-full border rounded-md" >
+            </div>
+            <div class="mb-6">
+                <label for="{{ profile_form.description.id_for_label }}" class="block text-sm font-medium text-gray-600">คำอธิบายตัวเอง</label>
+                <input type="text" id="{{ profile_form.description.id_for_label }}" name="{{ profile_form.description.html_name }}" required
+                       class="mt-1 p-2 w-full border rounded-md" >
+            </div>
+            <h2 class="text-xl font-bold mb-4">ผลงาน & โปรไฟล์</h2>
+            {{ formset.management_form }}
+            {% for form in formset %}
+                <div class="mb-6">
+                    <label for="{{ form.image.id_for_label }}" class="block text-sm font-medium text-gray-600">รูปภาพ</label>
+                    {{ form.image }}
+                </div>
+            {% endfor %}
+            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700">บันทึกข้อมูล</button>
+        </form>
+    </div>
+</body>
+{% endblock %}
