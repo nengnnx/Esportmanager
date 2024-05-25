@@ -13,6 +13,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
 from django.contrib.auth import update_session_auth_hash
+from django.http import JsonResponse
 
 from myesportapp.forms import RegistrationForm
 
@@ -43,9 +44,6 @@ def profile(req):
 def search(req):
     return render(req,'search.html')
 
-@login_required
-def finding(req):
-    return render(req,'finding.html')
 
 def navbar(req):
     return render(req,'navbar.html')
@@ -132,17 +130,71 @@ def some_view(request):
     has_profile = PlayerProfile.objects.filter(member=request.user).exists()
     return render(request, 'profile_detail.html', {'has_profile': has_profile})
 
-@login_required
 def create_team(request):
+    selected_game = None  # กำหนดค่าเริ่มต้นให้กับ selected_game
+
     if request.method == 'POST':
         form = TeamForm(request.POST)
         if form.is_valid():
-            team = form.save(commit=False)
-            team.created_by = request.user
-            team.save()
-            messages.success(request, 'ทีมของคุณถูกสร้างเรียบร้อยแล้ว!')
-            return redirect('team_list')  # เปลี่ยน 'team_list' เป็นชื่อ URL ที่คุณต้องการเปลี่ยนไป
+            form.save()
+            return redirect('create_team')  # เปลี่ยนเป็น URL ที่คุณต้องการให้เปลี่ยนไป
     else:
         form = TeamForm()
-    return render(request, 'create_team.html', {'form': form})
+        if 'game' in request.GET:
+            try:
+                game_id = int(request.GET['game'])
+                selected_game = Game.objects.get(id=game_id)
+                form.fields['required_rank_min'].choices = form.get_rank_choices(selected_game)
+                form.fields['required_rank_max'].choices = form.get_rank_choices(selected_game)
+                form.initial['game'] = selected_game  # ตั้งค่า initial value ของฟิลด์เกม
+            except (ValueError, TypeError, Game.DoesNotExist):
+                selected_game = None  # ตั้งค่าเป็น None เมื่อไม่สามารถหาเกมได้
 
+    return render(request, 'create_team.html', {'form': form, 'selected_game': selected_game})
+
+def create_game(req):
+    return render(req,'create_game_admin.html')
+
+def add_game(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        rank1 = request.POST.get('rank1')
+        rank2 = request.POST.get('rank2')
+        rank3 = request.POST.get('rank3')
+        rank4 = request.POST.get('rank4')
+        rank5 = request.POST.get('rank5')
+        rank6 = request.POST.get('rank6')
+        rank7 = request.POST.get('rank7')
+        rank8 = request.POST.get('rank8')
+        rank9 = request.POST.get('rank9')
+        number_of_players = request.POST.get('number_of_players')
+
+        # สร้างอ็อบเจ็กต์ Game และบันทึกข้อมูลลงในฐานข้อมูล
+        game = Game(
+            name=name,
+            rank1=rank1,
+            rank2=rank2,
+            rank3=rank3,
+            rank4=rank4,
+            rank5=rank5,
+            rank6=rank6,
+            rank7=rank7,
+            rank8=rank8,
+            rank9=rank9,
+            number_of_players=number_of_players
+        )
+        game.save()
+
+        # รีไดเร็กไปยังหน้าความสำเร็จ (หรือหน้าอื่นๆ ที่คุณต้องการ)
+        return redirect('success_page')  # คุณต้องสร้างหน้า success_page เอง
+
+    # ถ้าเป็นคำขอ GET ให้แสดงฟอร์ม
+    return render(request, 'add_game.html')
+
+def my_team(request):
+    has_profile = PlayerProfile.objects.filter(member=request.user).exists()
+    if has_profile:
+        teams = Team.objects.filter(member=request.user)
+    else:
+        teams = []
+    return render(request, 'my_team.html', {'teams': teams, 'has_profile': has_profile})

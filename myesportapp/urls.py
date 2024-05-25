@@ -16,6 +16,9 @@ urlpatterns = [
     path('profile_detail/', profile_detail, name='profile_detail'),
     path('profile/edit/', edit_profile, name='edit_profile'),
     path("navbar",some_view,name='some_view'),
-    path('create_team/', create_team, name='create_team'),
+    path('create_game_admin/', create_game, name='create_game'),
+    path('create_team/',create_team,name='create_team'),
+    path('create_game_admnin/', add_game, name='add_game'),
+    
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

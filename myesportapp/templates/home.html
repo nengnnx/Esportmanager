@@ -8,24 +8,37 @@
 </head>
 <body>
     {% include 'components/navbar.html' %}
-    {% block content %}{% endblock %}
+    {% block content %}
+    <div class="max-w-md mx-auto my-10 bg-white p-6 rounded-md shadow-md ml-20">
+        <label for="gameName" class="block text-gray-700 text-sm font-bold mb-2">ชื่อเกม:</label>
+        <input type="text" id="gameName" name="gameName" placeholder="กรอกชื่อเกมที่ต้องการค้นหา"
+            class="w-full px-3 py-2 border rounded-md">
 
-  <div class="max-w-md mx-auto my-10 bg-white p-6 rounded-md shadow-md ml-20">
-    <label for="gameName" class="block text-gray-700 text-sm font-bold mb-2">ชื่อเกม:</label>
-    <input type="text" id="gameName" name="gameName" placeholder="กรอกชื่อเกมที่ต้องการค้นหา"
-           class="w-full px-3 py-2 border rounded-md">
+        <label for="position" class="block text-gray-700 text-sm font-bold mb-2 mt-4">ตำแหน่ง:</label>
+        <select id="position" name="position" class="w-full px-3 py-2 border rounded-md">
+            <option value="all">ทั้งหมด</option>
+            <option value="1">ตำแหน่งที่ 1</option>
+            <option value="2">ตำแหน่งที่ 2</option>
+            <option value="3">ตำแหน่งที่ 3</option>
+            <!-- เพิ่มตำแหน่งตามที่ต้องการ -->
 
-    <label for="position" class="block text-gray-700 text-sm font-bold mb-2 mt-4">ตำแหน่ง:</label>
-    <select id="position" name="position" class="w-full px-3 py-2 border rounded-md">
-        <option value="all">ทั้งหมด</option>
-        <option value="1">ตำแหน่งที่ 1</option>
-        <option value="2">ตำแหน่งที่ 2</option>
-        <option value="3">ตำแหน่งที่ 3</option>
-        <!-- เพิ่มตำแหน่งตามที่ต้องการ -->
+        </select>
 
-    </select>
+        <button type="submit" class="mt-4 bg-green-500 text-white px-4 py-2 rounded-md">ค้นหา</button>
+    </div>
 
-    <button type="submit" class="mt-4 bg-green-500 text-white px-4 py-2 rounded-md">ค้นหา</button>
-</div>
+    <div class="max-w-md mx-auto my-10 ml-20">
+        <h1 class="text-xl font-bold mb-4">ทีมทั้งหมด</h1>
+        <ul>
+            {% for team in teams %}
+            <li class="flex items-center justify-between border-b border-gray-300 py-2">
+                <span>{{ team.name }} - {{ team.game.name }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    
+    {% endblock %}
 </body>
 </html>

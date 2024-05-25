@@ -1,22 +1,32 @@
 {% include 'components/navbar.html' %}
 {% block content %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div class="p-6 bg-gray-100 min-h-screen flex items-start justify-center">
     <title>Create Team</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#id_game').change(function() {
+                var game_id = $(this).val();
+                if (game_id) {
+                    window.location.href = '?game=' + game_id;
+                }
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="p-6 bg-gray-100 min-h-screen flex items-start justify-center">
-        <form method="post" class="p-6 bg-white rounded-md shadow-md w-full max-w-lg mt-8">
-            {% csrf_token %}
-            <h1 class="text-3xl font-bold mb-4">กรอกข้อมูลเพื่อสร้างทีม</h1>
-            {{ form.as_p }}
-            <div class="text-center">
-                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md">สร้างทีม</button>
-            </div>
-        </form>
+        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h1 class="text-2xl font-bold mb-6">Create Team</h1>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="w-full px-4 py-2 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Create Team</button>
+            </form>
+            {% if selected_game %}
+                <h2 class="mt-6">Selected Game: {{ selected_game.name }}</h2>
+            {% endif %}
+        </div>
     </div>
-</body>
-</html>
+
 {% endblock %}

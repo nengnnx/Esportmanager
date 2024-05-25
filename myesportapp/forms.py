@@ -11,7 +11,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm  # Import the built-in form
 from django.contrib.auth import logout
 from .models import PlayerProfile, WorkPicture
-from .models import Team
+from .models import *
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(max_length=150)
@@ -42,14 +42,34 @@ class WorkPictureForm(forms.ModelForm):
         fields = ['image']
 
 class TeamForm(forms.ModelForm):
+    game = forms.ModelChoiceField(queryset=Game.objects.all(), empty_label="Select Game")
+    required_rank_min = forms.ChoiceField(choices=[], required=False)
+    required_rank_max = forms.ChoiceField(choices=[], required=False)
+
     class Meta:
         model = Team
         fields = ['name', 'game', 'required_rank_min', 'required_rank_max', 'members_needed', 'additional_details']
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'mt-1 p-2 w-full border rounded-md'}),
-            'game': forms.Select(attrs={'class': 'mt-1 p-2 w-full border rounded-md'}),
-            'required_rank_min': forms.Select(attrs={'class': 'mt-1 p-2 w-full border rounded-md'}),
-            'required_rank_max': forms.Select(attrs={'class': 'mt-1 p-2 w-full border rounded-md'}),
-            'members_needed': forms.NumberInput(attrs={'class': 'mt-1 p-2 w-full border rounded-md'}),
-            'additional_details': forms.Textarea(attrs={'class': 'mt-1 p-2 w-full border rounded-md'}),
-        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if 'game' in self.data:
+            try:
+                game_id = int(self.data.get('game'))
+                game = Game.objects.get(id=game_id)
+                self.fields['required_rank_min'].choices = self.get_rank_choices(game)
+                self.fields['required_rank_max'].choices = self.get_rank_choices(game)
+            except (ValueError, TypeError, Game.DoesNotExist):
+                pass
+        elif self.instance.pk:
+            game = self.instance.game
+            self.fields['required_rank_min'].choices = self.get_rank_choices(game)
+            self.fields['required_rank_max'].choices = self.get_rank_choices(game)
+
+    def get_rank_choices(self, game):
+        ranks = []
+        for rank in range(1, 10):
+            rank_field = f'rank{rank}'
+            rank_value = getattr(game, rank_field, None)
+            if rank_value:
+                ranks.append((rank_value, rank_value))
+        return ranks

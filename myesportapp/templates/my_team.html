@@ -1,0 +1,41 @@
+{% include 'components/navbar.html' %}
+{% block content %}
+<div class="p-6 bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl">
+        <h1 class="text-2xl font-bold mb-6">My Teams</h1>
+        {% if has_profile %}
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white">
+                    <thead>
+                        <tr>
+                            <th class="py-2 px-4 border-b">ชื่อทีม</th>
+                            <th class="py-2 px-4 border-b">เกม</th>
+                            <th class="py-2 px-4 border-b">จำนวนผู้เล่นที่ต้องการ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for team in teams %}
+                        <tr>
+                            <td class="py-2 px-4 border-b">{{ team.name }}</td>
+                            <td class="py-2 px-4 border-b">{{ team.game.name }}</td>
+                            <td class="py-2 px-4 border-b">
+                                {% for member in team.member.all %}
+                                    {{ member.username }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td class="py-2 px-4 border-b">{{ team.members_needed }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="py-2 px-4 border-b text-center text-gray-500">No teams found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-center text-gray-500">You do not have a profile. Please create a profile first.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

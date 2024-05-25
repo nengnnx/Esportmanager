@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Game</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-80">
+        <h2 class="text-center text-2xl font-bold mb-6">Add Game</h2>
+        <form action="{% url 'create_game' %}" method="POST">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="name" class="block text-gray-700 font-medium mb-2">Game Name</label>
+                <input type="text" id="name" name="name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200" required>
+            </div>
+            <div class="mb-4">
+                <label for="rank1" class="block text-gray-700 font-medium mb-2">Rank 1</label>
+                <input type="text" id="rank1" name="rank1" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200" required>
+            </div>
+            <div class="mb-4">
+                <label for="rank2" class="block text-gray-700 font-medium mb-2">Rank 2</label>
+                <input type="text" id="rank2" name="rank2" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200" required>
+            </div>
+            <div class="mb-4">
+                <label for="rank3" class="block text-gray-700 font-medium mb-2">Rank 3</label>
+                <input type="text" id="rank3" name="rank3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200" required>
+            </div>
+            <div class="mb-4">
+                <label for="rank4" class="block text-gray-700 font-medium mb-2">Rank 4</label>
+                <input type="text" id="rank4" name="rank4" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200" required>
+            </div>
+            <div class="mb-4">
+                <label for="rank5" class="block text-gray-700 font-medium mb-2">Rank 5</label>
+                <input type="text" id="rank5" name="rank5" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200" required>
+            </div>
+            <div class="mb-4">
+                <label for="rank6" class="block text-gray-700 font-medium mb-2">Rank 6</label>
+                <input type="text" id="rank6" name="rank6" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200" required>
+            </div>
+            <div class="mb-4">
+                <label for="rank7" class="block text-gray-700 font-medium mb-2">Rank 7</label>
+                <input type="text" id="rank7" name="rank7" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200" required>
+            </div>
+            <div class="mb-4">
+                <label for="rank8" class="block text-gray-700 font-medium mb-2">Rank 8</label>
+                <input type="text" id="rank8" name="rank8" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200" required>
+            </div>
+            <div class="mb-4">
+                <label for="rank9" class="block text-gray-700 font-medium mb-2">Rank 9</label>
+                <input type="text" id="rank9" name="rank9" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200" required>
+            </div>
+            <div class="mb-4">
+                <label for="number_of_players" class="block text-gray-700 font-medium mb-2">Number of Players</label>
+                <input type="number" id="number_of_players" name="number_of_players" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200" required>
+            </div>
+            <div>
+                <button type="submit" class="w-full px-4 py-2 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Add Game</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
