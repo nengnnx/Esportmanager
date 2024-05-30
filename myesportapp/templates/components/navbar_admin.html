@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <nav class="bg-white border-b-4 border-blue-700">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-black">welcome admin</span>
+            </a>
+            <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+                <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-white md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
+                    <li>
+                        <a href="/create_game_admin" class="block py-2 px-3 text-black rounded hover:bg-gradient-to-r from-gray-100 to-gray-300 md:hover:bg-transparent md:border-0 md:p-0">เพิ่มเกม</a>
+                    </li>
+                    <li>
+                        <a href="/game_list" class="block py-2 px-3 text-black rounded hover:bg-gradient-to-r from-gray-100 to-gray-300 md:hover:bg-transparent md:border-0 md:p-0">แก้ไขเกม</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="relative">
+                            <button onclick="toggleDropdown()" class="block py-2 px-3 text-black rounded md:bg-transparent md:p-0">| Admin {{ user.username }}</button>
+                        </li>
+                        <li>
+                            <a href="{% url 'logout' %}" class="block py-2 px-3 text-black rounded hover:bg-gradient-to-r from-gray-100 to-gray-300 md:hover:bg-transparent md:border-0 md:p-0">ออกจากระบบ</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{% url 'login' %}" class="block py-2 px-3 text-black rounded hover:bg-gradient-to-r from-gray-100 to-gray-300 md:hover:bg-transparent md:border-0 md:p-0">เข้าสู่ระบบ</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>

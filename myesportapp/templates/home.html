@@ -9,36 +9,39 @@
 <body>
     {% include 'components/navbar.html' %}
     {% block content %}
-    <div class="max-w-md mx-auto my-10 bg-white p-6 rounded-md shadow-md ml-20">
-        <label for="gameName" class="block text-gray-700 text-sm font-bold mb-2">ชื่อเกม:</label>
-        <input type="text" id="gameName" name="gameName" placeholder="กรอกชื่อเกมที่ต้องการค้นหา"
-            class="w-full px-3 py-2 border rounded-md">
+    <div class="container mx-auto my-10">
+        <!-- Search Form Section -->
+        <div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md mb-10">
+            <h1 class="text-xl font-bold mb-4">ค้นหา</h1>
+            <form method="get" action="#">
+                <div class="mb-4">
+                    <label for="gameName" class="block text-gray-700 text-sm font-bold mb-2">ชื่อเกม:</label>
+                    <input type="text" id="gameName" name="gameName" placeholder="กรอกชื่อเกมที่ต้องการค้นหา"
+                        class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <button type="submit" class="w-full bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700">ค้นหา</button>
+            </form>
+        </div>   
 
-        <label for="position" class="block text-gray-700 text-sm font-bold mb-2 mt-4">ตำแหน่ง:</label>
-        <select id="position" name="position" class="w-full px-3 py-2 border rounded-md">
-            <option value="all">ทั้งหมด</option>
-            <option value="1">ตำแหน่งที่ 1</option>
-            <option value="2">ตำแหน่งที่ 2</option>
-            <option value="3">ตำแหน่งที่ 3</option>
-            <!-- เพิ่มตำแหน่งตามที่ต้องการ -->
-
-        </select>
-
-        <button type="submit" class="mt-4 bg-green-500 text-white px-4 py-2 rounded-md">ค้นหา</button>
+        <!-- Teams List Section -->
+        <div class="max-w-2xl mx-auto bg-white p-6 rounded-md shadow-md">
+            <h1 class="text-xl font-bold mb-4">ทีมทั้งหมด</h1>
+            <ul>
+                {% for team in teams %}
+                <li class="flex items-center justify-between border-b border-gray-300 py-2">
+                    <span>{{ team.name }} - {{ team.game.name }}</span>
+                    <div class="flex space-x-2">
+                        <form method="post" action="#">
+                            {% csrf_token %}
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700">Join</button>
+                        </form>
+                        <a href="{% url 'team_detail' team.id %}" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700">รายละเอียด</a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
-
-    <div class="max-w-md mx-auto my-10 ml-20">
-        <h1 class="text-xl font-bold mb-4">ทีมทั้งหมด</h1>
-        <ul>
-            {% for team in teams %}
-            <li class="flex items-center justify-between border-b border-gray-300 py-2">
-                <span>{{ team.name }} - {{ team.game.name }}</span>
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-    
-    
     {% endblock %}
 </body>
 </html>

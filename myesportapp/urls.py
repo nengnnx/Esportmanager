@@ -4,6 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('', team_list, name='team_list'),
     path('', home, name='home'),
     path('login/', login_view, name='login'),
     #path('profile/', profile, name='profile'),
@@ -19,6 +20,10 @@ urlpatterns = [
     path('create_game_admin/', create_game, name='create_game'),
     path('create_team/',create_team,name='create_team'),
     path('create_game_admnin/', add_game, name='add_game'),
+    path('foradmin',foradmin,name='foradmin'),
+    path('game_list',game_list, name='game_list'),
+    path('edit/<int:game_id>/',edit_game, name='edit_game'),
+    path('team/<int:pk>/', team_detail_view, name='team_detail'),
     
-    
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

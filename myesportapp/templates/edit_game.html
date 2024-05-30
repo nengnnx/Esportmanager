@@ -1,0 +1,59 @@
+{% include 'components/navbar_admin.html' %}
+{% block content %}
+<div class="container mx-auto mt-10 p-6 bg-white shadow-md rounded-lg">
+    <h1 class="text-3xl font-bold mb-6 text-center">แก้ไขเกม</h1>
+    <form method="post" action="">
+        {% csrf_token %}
+        <div class="grid grid-cols-1 gap-6">
+            <div>
+                <label for="name" class="block text-gray-700 font-medium">Game Name</label>
+                {{ form.name }}
+            </div>
+            <div>
+                <label for="rank1" class="block text-gray-700 font-medium">Rank 1</label>
+                {{ form.rank1 }}
+            </div>
+            <div>
+                <label for="rank2" class="block text-gray-700 font-medium">Rank 2</label>
+                {{ form.rank2 }}
+            </div>
+            <div>
+                <label for="rank3" class="block text-gray-700 font-medium">Rank 3</label>
+                {{ form.rank3 }}
+            </div>
+            <div>
+                <label for="rank4" class="block text-gray-700 font-medium">Rank 4</label>
+                {{ form.rank4 }}
+            </div>
+            <div>
+                <label for="rank5" class="block text-gray-700 font-medium">Rank 5</label>
+                {{ form.rank5 }}
+            </div>
+            <div>
+                <label for="rank6" class="block text-gray-700 font-medium">Rank 6</label>
+                {{ form.rank6 }}
+            </div>
+            <div>
+                <label for="rank7" class="block text-gray-700 font-medium">Rank 7</label>
+                {{ form.rank7 }}
+            </div>
+            <div>
+                <label for="rank8" class="block text-gray-700 font-medium">Rank 8</label>
+                {{ form.rank8 }}
+            </div>
+            <div>
+                <label for="rank9" class="block text-gray-700 font-medium">Rank 9</label>
+                {{ form.rank9 }}
+            </div>
+            <div>
+                <label for="number_of_players" class="block text-gray-700 font-medium">Number of Players</label>
+                {{ form.number_of_players }}
+            </div>
+        </div>
+        <div class="mt-6 text-center">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save</button>
+            
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,4 +1,5 @@
 # myesportapp/views.py
+from audioop import reverse
 from collections import UserDict, UserList
 from contextlib import redirect_stderr, redirect_stdout
 from django.shortcuts import render , redirect ,get_object_or_404
@@ -14,6 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
 from django.contrib.auth import update_session_auth_hash
 from django.http import JsonResponse
+from .forms import GameForm
 
 from myesportapp.forms import RegistrationForm
 
@@ -33,10 +35,14 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('home')  
+                if user.is_superuser:
+                    return redirect('foradmin')  # แก้ไขเป็นชื่อ URL ที่เหมาะสมสำหรับหน้าผู้ดูแลระบบ
+                else:
+                    return redirect('home')  # แก้ไขเป็นชื่อ URL ที่เหมาะสมสำหรับหน้าผู้ใช้ทั่วไป
     else:
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
+
 
 def profile(req):
     return render(req,'prifile.html')
@@ -130,6 +136,7 @@ def some_view(request):
     has_profile = PlayerProfile.objects.filter(member=request.user).exists()
     return render(request, 'profile_detail.html', {'has_profile': has_profile})
 
+@login_required
 def create_team(request):
     selected_game = None  # กำหนดค่าเริ่มต้นให้กับ selected_game
 
@@ -152,8 +159,25 @@ def create_team(request):
 
     return render(request, 'create_team.html', {'form': form, 'selected_game': selected_game})
 
+@login_required
 def create_game(req):
     return render(req,'create_game_admin.html')
+
+
+def my_team(request):
+    has_profile = PlayerProfile.objects.filter(member=request.user).exists()
+    if has_profile:
+        teams = Team.objects.filter(member=request.user)
+    else:
+        teams = []
+    return render(request, 'my_team.html', {'teams': teams, 'has_profile': has_profile})
+
+def team_list(request):
+    teams = Team.objects.all()  # ดึงข้อมูลทีมทั้งหมด
+    return render(request, 'home.html', {'teams': teams})
+
+def foradmin(req):
+    return render(req,'foradmin.html')
 
 def add_game(request):
     if request.method == 'POST':
@@ -191,10 +215,47 @@ def add_game(request):
     # ถ้าเป็นคำขอ GET ให้แสดงฟอร์ม
     return render(request, 'add_game.html')
 
-def my_team(request):
-    has_profile = PlayerProfile.objects.filter(member=request.user).exists()
-    if has_profile:
-        teams = Team.objects.filter(member=request.user)
+def game_list(request):
+    games = Game.objects.all()
+    return render(request, 'game_list.html', {'games': games})
+
+def edit_game(request, game_id):
+    game = get_object_or_404(Game, id=game_id)
+    if request.method == 'POST':
+        form = GameForm(request.POST, instance=game)
+        if form.is_valid():
+            form.save()
+            return redirect('game_list')
     else:
-        teams = []
-    return render(request, 'my_team.html', {'teams': teams, 'has_profile': has_profile})
+        form = GameForm(instance=game)
+    return render(request, 'edit_game.html', {'form': form})
+
+def team_detail_view(request, pk):
+    team = get_object_or_404(Team, pk=pk)
+    return render(request, 'team_detail.html', {'team': team})
+
+@login_required
+def join_team(request, team_id):
+    team = get_object_or_404(Team, id=team_id)
+    join_request, created = JoinRequest.objects.get_or_create(team=team, user=request.user)
+    return redirect('home')
+
+@login_required
+def manage_join_requests(request):
+    if request.user.is_superuser:
+        join_requests = JoinRequest.objects.all()
+    else:
+        join_requests = JoinRequest.objects.filter(team__member=request.user)
+    return render(request, 'manage_requests.html', {'join_requests': join_requests})
+
+@login_required
+def handle_request(request, request_id, action):
+    join_request = get_object_or_404(JoinRequest, id=request_id)
+    if action == 'approve':
+        join_request.approved = True
+        join_request.rejected = False
+    elif action == 'reject':
+        join_request.approved = False
+        join_request.rejected = True
+    join_request.save()
+    return redirect('manage_requests')

@@ -73,3 +73,21 @@ class TeamForm(forms.ModelForm):
             if rank_value:
                 ranks.append((rank_value, rank_value))
         return ranks
+    
+class GameForm(forms.ModelForm):
+    class Meta:
+        model = Game
+        fields = ['name', 'rank1', 'rank2', 'rank3', 'rank4', 'rank5', 'rank6', 'rank7', 'rank8', 'rank9', 'number_of_players']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-input mt-1 block w-full'}),
+            'rank1': forms.TextInput(attrs={'class': 'form-input mt-1 block w-full'}),
+            'rank2': forms.TextInput(attrs={'class': 'form-input mt-1 block w-full'}),
+            'rank3': forms.TextInput(attrs={'class': 'form-input mt-1 block w-full'}),
+            'rank4': forms.TextInput(attrs={'class': 'form-input mt-1 block w-full'}),
+            'rank5': forms.TextInput(attrs={'class': 'form-input mt-1 block w-full'}),
+            'rank6': forms.TextInput(attrs={'class': 'form-input mt-1 block w-full'}),
+            'rank7': forms.TextInput(attrs={'class': 'form-input mt-1 block w-full'}),
+            'rank8': forms.TextInput(attrs={'class': 'form-input mt-1 block w-full'}),
+            'rank9': forms.TextInput(attrs={'class': 'form-input mt-1 block w-full'}),
+            'number_of_players': forms.NumberInput(attrs={'class': 'form-input mt-1 block w-full'}),
+        }

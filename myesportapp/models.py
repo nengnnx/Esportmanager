@@ -61,6 +61,4 @@ class Team(models.Model):
     additional_details = models.TextField( null=True, blank=False)
 
     def __str__(self):
-        return self.name
-
-        
+        return self.name  
