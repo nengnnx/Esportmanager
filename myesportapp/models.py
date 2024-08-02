@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
-# Create your models here.
+
 class UserProfile(models.Model):
     username = models.CharField(max_length=100, null=True, blank=False)
     password = models.CharField(max_length=100, null=True, blank=False) 
@@ -46,8 +46,6 @@ class Game(models.Model):
     rank7 = models.CharField(max_length=100,  null=True, blank=False)
     rank8 = models.CharField(max_length=100, null=True, blank=False)
     rank9 = models.CharField(max_length=100,  null=True, blank=False)
-    number_of_players = models.IntegerField( null=True, blank=False)
-
     def __str__(self):
         return self.name
 
@@ -62,3 +60,21 @@ class Team(models.Model):
 
     def __str__(self):
         return self.name  
+    
+class JoinRequest(models.Model):
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='join_requests', null=True, blank=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False)
+    status = models.CharField(max_length=20, default='pending', null=True, blank=False)  
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=False)
+
+    def __str__(self):
+        return f"{self.user.username} -> {self.team.name} ({self.status})"
+    
+class TeamMember(models.Model):
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='members', null=True, blank=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False)
+
+    def __str__(self):
+        return f"{self.user.username} -> {self.team.name}"
+
+

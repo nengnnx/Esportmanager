@@ -7,7 +7,6 @@ urlpatterns = [
     path('', team_list, name='team_list'),
     path('', home, name='home'),
     path('login/', login_view, name='login'),
-    #path('profile/', profile, name='profile'),
     path('search/', search, name='search'),
     path('navbar/', navbar, name='navbar'),
     path('register/', register, name='register'),
@@ -23,7 +22,12 @@ urlpatterns = [
     path('foradmin',foradmin,name='foradmin'),
     path('game_list',game_list, name='game_list'),
     path('edit/<int:game_id>/',edit_game, name='edit_game'),
-    path('team/<int:pk>/', team_detail_view, name='team_detail'),
-    
+    path('join_team/<int:team_id>/', join_team, name='join_team'),
+    path('join_request/', join_requests, name='join_requests'),
+    path('accept_join_request/<int:request_id>/', accept_join_request, name='accept_join_request'),
+    path('reject_join_request/<int:request_id>/', reject_join_request, name='reject_join_request'),
+    path('team/<int:pk>/', team_detail, name='team_detail'),
+    path('user_profile/<int:user_id>/', user_profile, name='user_profile'),
+    path('leave_team/<int:team_id>/', leave_team, name='leave_team'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -2,6 +2,47 @@
 <html lang="en">
 <head>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        const rankChoices = {{ rank_choices|safe }};
+
+        function updateRankOptions() {
+            const gameSelect = document.getElementById('gameName');
+            const rankMinSelect = document.getElementById('rankMin');
+            const rankMaxSelect = document.getElementById('rankMax');
+
+            rankMinSelect.innerHTML = '<option value="">กรุณาเลือกแรงค์ขั้นต่ำ</option>';
+            rankMaxSelect.innerHTML = '<option value="">กรุณาเลือกแรงค์สูงสุด</option>';
+
+            const selectedGame = gameSelect.options[gameSelect.selectedIndex].text.toLowerCase();
+            const ranks = Object.keys(rankChoices[selectedGame] || {});
+
+            ranks.forEach(rank => {
+                const optionMin = document.createElement('option');
+                optionMin.value = rank;
+                optionMin.text = rank;
+                rankMinSelect.appendChild(optionMin);
+
+                const optionMax = document.createElement('option');
+                optionMax.value = rank;
+                optionMax.text = rank;
+                rankMaxSelect.appendChild(optionMax);
+            });
+
+            {% if selected_rank_min %}
+            rankMinSelect.value = "{{ selected_rank_min }}";
+            {% endif %}
+            {% if selected_rank_max %}
+            rankMaxSelect.value = "{{ selected_rank_max }}";
+            {% endif %}
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const gameSelect = document.getElementById('gameName');
+            if (gameSelect.value) {
+                updateRankOptions();
+            }
+        });
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Sports</title>
@@ -10,20 +51,34 @@
     {% include 'components/navbar.html' %}
     {% block content %}
     <div class="container mx-auto my-10">
-        <!-- Search Form Section -->
         <div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md mb-10">
             <h1 class="text-xl font-bold mb-4">ค้นหา</h1>
-            <form method="get" action="#">
+            <form method="get" action="{% url 'team_list' %}">
                 <div class="mb-4">
                     <label for="gameName" class="block text-gray-700 text-sm font-bold mb-2">ชื่อเกม:</label>
-                    <input type="text" id="gameName" name="gameName" placeholder="กรอกชื่อเกมที่ต้องการค้นหา"
-                        class="w-full px-3 py-2 border rounded-md">
+                    <select id="gameName" name="gameName" class="w-full px-3 py-2 border rounded-md" onchange="updateRankOptions()">
+                        <option value="">กรุณาเลือกเกม</option>
+                        {% for game in games %}
+                        <option value="{{ game.id }}" {% if selected_game and selected_game.id == game.id %}selected{% endif %}>{{ game.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="rankMin" class="block text-gray-700 text-sm font-bold mb-2">แรงค์ขั้นต่ำ:</label>
+                    <select id="rankMin" name="rankMin" class="w-full px-3 py-2 border rounded-md">
+                        <option value="">กรุณาเลือกแรงค์ขั้นต่ำ</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="rankMax" class="block text-gray-700 text-sm font-bold mb-2">แรงค์สูงสุด:</label>
+                    <select id="rankMax" name="rankMax" class="w-full px-3 py-2 border rounded-md">
+                        <option value="">กรุณาเลือกแรงค์สูงสุด</option>
+                    </select>
                 </div>
                 <button type="submit" class="w-full bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700">ค้นหา</button>
             </form>
         </div>   
 
-        <!-- Teams List Section -->
         <div class="max-w-2xl mx-auto bg-white p-6 rounded-md shadow-md">
             <h1 class="text-xl font-bold mb-4">ทีมทั้งหมด</h1>
             <ul>
@@ -31,13 +86,15 @@
                 <li class="flex items-center justify-between border-b border-gray-300 py-2">
                     <span>{{ team.name }} - {{ team.game.name }}</span>
                     <div class="flex space-x-2">
-                        <form method="post" action="#">
+                        <form id="join-form-{{ team.id }}" method="post" action="{% url 'join_team' team.id %}">
                             {% csrf_token %}
-                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700">Join</button>
+                            <button type="button" onclick="confirmJoin('join-form-{{ team.id }}')" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700">ขอเข้าร่วม</button>
                         </form>
-                        <a href="{% url 'team_detail' team.id %}" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700">รายละเอียด</a>
+                        <a href="{% url 'team_detail' pk=team.id %}" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700">รายละเอียด</a>
                     </div>
                 </li>
+                {% empty %}
+                <li class="text-center py-4 text-gray-500">ไม่พบทีมที่ตรงกับการค้นหา</li>
                 {% endfor %}
             </ul>
         </div>

@@ -48,7 +48,7 @@ class TeamForm(forms.ModelForm):
 
     class Meta:
         model = Team
-        fields = ['name', 'game', 'required_rank_min', 'required_rank_max', 'members_needed', 'additional_details']
+        fields = ['game', 'name', 'required_rank_min', 'required_rank_max', 'members_needed', 'additional_details']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -77,7 +77,7 @@ class TeamForm(forms.ModelForm):
 class GameForm(forms.ModelForm):
     class Meta:
         model = Game
-        fields = ['name', 'rank1', 'rank2', 'rank3', 'rank4', 'rank5', 'rank6', 'rank7', 'rank8', 'rank9', 'number_of_players']
+        fields = ['name', 'rank1', 'rank2', 'rank3', 'rank4', 'rank5', 'rank6', 'rank7', 'rank8', 'rank9']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-input mt-1 block w-full'}),
             'rank1': forms.TextInput(attrs={'class': 'form-input mt-1 block w-full'}),
@@ -89,5 +89,5 @@ class GameForm(forms.ModelForm):
             'rank7': forms.TextInput(attrs={'class': 'form-input mt-1 block w-full'}),
             'rank8': forms.TextInput(attrs={'class': 'form-input mt-1 block w-full'}),
             'rank9': forms.TextInput(attrs={'class': 'form-input mt-1 block w-full'}),
-            'number_of_players': forms.NumberInput(attrs={'class': 'form-input mt-1 block w-full'}),
+            
         }

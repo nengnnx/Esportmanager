@@ -1,41 +1,67 @@
-{% include 'components/navbar.html' %}
-{% block content %}
-<div class="p-6 bg-gray-100 min-h-screen flex items-center justify-center">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl">
-        <h1 class="text-2xl font-bold mb-6">My Teams</h1>
-        {% if has_profile %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Team</title>
+</head>
+<body class="bg-gray-100">
+    {% include 'components/navbar.html' %}
+    <div class="container mx-auto my-10">
+        <div class="max-w-4xl mx-auto bg-white p-6 rounded-md shadow-md">
+            <h1 class="text-2xl font-bold mb-4 text-center">Teams</h1>
             <div class="overflow-x-auto">
-                <table class="min-w-full bg-white">
+                <table class="min-w-full bg-white border">
                     <thead>
-                        <tr>
-                            <th class="py-2 px-4 border-b">ชื่อทีม</th>
-                            <th class="py-2 px-4 border-b">เกม</th>
-                            <th class="py-2 px-4 border-b">จำนวนผู้เล่นที่ต้องการ</th>
+                        <tr class="bg-gray-200">
+                            <th class="py-3 px-6 border-b border-gray-300 text-left font-semibold">ทีม</th>
+                            <th class="py-3 px-6 border-b border-gray-300 text-left font-semibold">เกม</th>
+                            <th class="py-3 px-6 border-b border-gray-300 text-left font-semibold">ผู้เล่นที่ต้องการ</th>
+                            <th class="py-3 px-6 border-b border-gray-300 text-left font-semibold">หัวหน้าทีม</th>
+                            <th class="py-3 px-6 border-b border-gray-300 text-left font-semibold">สมาชิก</th>
+                            <th class="py-3 px-6 border-b border-gray-300 text-left font-semibold"></th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for team in teams %}
                         <tr>
-                            <td class="py-2 px-4 border-b">{{ team.name }}</td>
-                            <td class="py-2 px-4 border-b">{{ team.game.name }}</td>
-                            <td class="py-2 px-4 border-b">
-                                {% for member in team.member.all %}
-                                    {{ member.username }}{% if not forloop.last %}, {% endif %}
+                            <td class="py-4 px-6 border-b border-gray-300">{{ team.name }}</td>
+                            <td class="py-4 px-6 border-b border-gray-300">{{ team.game.name }}</td>
+                            <td class="py-4 px-6 border-b border-gray-300">
+                                {{ team.total_members }} / {{ team.members_needed }}
+                            </td>
+                            <td class="py-4 px-6 border-b border-gray-300">{{ team.member.username }}</td>
+                            <td class="py-4 px-6 border-b border-gray-300">
+                                {% for member in team.members.all %}
+                                <div class="flex items-center mb-1">
+                                    <span>{{ member.user.username }}</span>
+                                    <a href="{% url 'user_profile' user_id=member.user.id %}" class="ml-2 inline-block bg-gray-200 text-gray-800 px-2 py-1 rounded-md text-sm hover:bg-gray-300">View Profile</a>
+                                </div>
+                                {% empty %}
+                                <span>No members</span>
                                 {% endfor %}
                             </td>
-                            <td class="py-2 px-4 border-b">{{ team.members_needed }}</td>
+                            <td class="py-4 px-6 border-b border-gray-300">
+                                {% if request.user == team.member %}
+                                <button disabled class="bg-red-500 text-white px-4 py-2 rounded-md opacity-50 cursor-not-allowed">ออกจากทีม</button>
+                                {% else %}
+                                <form method="post" action="{% url 'leave_team' team.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700">ออกจากทีม</button>
+                                </form>
+                                {% endif %}
+                            </td>
                         </tr>
                         {% empty %}
                         <tr>
-                            <td colspan="4" class="py-2 px-4 border-b text-center text-gray-500">No teams found.</td>
+                            <td colspan="6" class="py-4 px-6 border-b border-gray-300 text-center text-gray-500">No teams found.</td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
-        {% else %}
-            <p class="text-center text-gray-500">You do not have a profile. Please create a profile first.</p>
-        {% endif %}
+        </div>
     </div>
-</div>
-{% endblock %}
+</body>
+</html>

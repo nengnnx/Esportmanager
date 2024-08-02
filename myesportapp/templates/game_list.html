@@ -15,7 +15,6 @@
                 <th class="px-4 py-2">Rank 7</th>
                 <th class="px-4 py-2">Rank 8</th>
                 <th class="px-4 py-2">Rank 9</th>
-                <th class="px-4 py-2">Number of Players</th>
                 <th class="px-4 py-2">Actions</th>
             </tr>
         </thead>
@@ -32,7 +31,6 @@
                 <td class="border px-4 py-2">{{ game.rank7 }}</td>
                 <td class="border px-4 py-2">{{ game.rank8 }}</td>
                 <td class="border px-4 py-2">{{ game.rank9 }}</td>
-                <td class="border px-4 py-2">{{ game.number_of_players }}</td>
                 <td class="border px-4 py-2 text-center">
                     <a href="{% url 'edit_game' game.id %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</a>
                 </td>

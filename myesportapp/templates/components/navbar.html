@@ -5,6 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TeamHub</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans Thai', sans-serif;
+        }
+        .font-thin {
+            font-weight: 100;
+        }
+        .font-normal {
+            font-weight: 400;
+        }
+        .font-bold {
+            font-weight: 700;
+        }
+    </style>
 </head>
 <body>
     <nav class="bg-white border-b-4 border-blue-700">
@@ -28,6 +45,7 @@
                             <button onclick="toggleDropdown()" class="block py-2 px-3 text-black rounded md:bg-transparent md:p-0">| สวัสดี {{ user.username }}</button>
                             <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg">
                                 <a href="/my_team" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">ทีมของฉัน</a>
+                                <a href="/join_request" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">คำขอเข้าร่วม</a>
                                 <a href="{% url 'profile_detail' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">แสดงโปรไฟล์</a>
                             </div>
                         </li>
