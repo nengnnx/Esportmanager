@@ -1,11 +1,14 @@
 {% include 'components/navbar.html' %}
 {% block content %}
 <title>Edit Profile</title>
+
 <body>
     <div class="max-w-2xl mx-auto p-6 bg-white rounded shadow-md mt-10">
         <h1 class="text-3xl font-bold mb-4">แก้ไขโปรไฟล์</h1>
         <form action="" method="post" enctype="multipart/form-data" class="space-y-4">
             {% csrf_token %}
+
+            <!-- Profile Details -->
             <div class="mb-4">
                 <label for="{{ form.player_name.id_for_label }}" class="block text-sm font-medium text-gray-600">ชื่อในเกม:</label>
                 {{ form.player_name }}
@@ -19,6 +22,7 @@
                     <option value="ROV" {% if form.game.value == "ROV" %} selected {% endif %}>ROV</option>
                 </select>
             </div>
+            
             <div class="mb-4">
                 <label for="{{ form.name_lastname.id_for_label }}" class="block text-sm font-medium text-gray-600">ชื่อ-สกุล:</label>
                 {{ form.name_lastname }}
@@ -51,10 +55,15 @@
                 <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-600">คำอธิบายตัวเอง:</label>
                 {{ form.description }}
             </div>
-            <div class="flex justify-between">
+            <div class="mb-4">
+            <h2 class="text-xl font-bold mb-4">งานภาพถ่าย</h2>
+            <a href="{% url 'work_pictures_list' %}" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700">View Work Pictures</a>
+            </div>
+            <div class="flex justify-between mt-4">
                 <a href="{% url 'profile_detail' %}" class="bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-600">กลับไปดูโปรไฟล์</a>
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700">บันทึกการแก้ไข</button>
             </div>
+
         </form>
     </div>
 </body>

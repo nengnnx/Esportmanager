@@ -10,17 +10,37 @@
     {% include 'components/navbar.html' %}
     <div class="container mx-auto my-10">
         <div class="max-w-2xl mx-auto bg-white p-6 rounded-md shadow-md">
-            <h1 class="text-xl font-bold mb-4"> Profile </h1>
-            <p><strong>Username:</strong> {{ player_profile.member.username }}</p>
-            <p><strong>ชื่อในเกม:</strong> {{ player_profile.player_name }}</p>
-            <p><strong>ชือ-สกุล:</strong> {{ player_profile.name_lastname }}</p>
-            <p><strong>อายุ:</strong> {{ player_profile.age }}</p>
-            <p><strong>เพศ:</strong> {{ player_profile.get_gender_display }}</p>
-            <p><strong>จังหวัด:</strong> {{ player_profile.province }}</p>
-            <p><strong>เบอร์มือถือ:</strong> {{ player_profile.phone_number }}</p>
-            <p><strong>Facebook:</strong> {{ player_profile.facebook }}</p>
-            <p><strong>Line:</strong> {{ player_profile.line }}</p>
-            <p><strong>คำอธิบาย:</strong> {{ player_profile.description }}</p>
+            <h1 class="text-xl font-bold mb-4">Profile</h1>
+            
+            <!-- Profile Details -->
+            <div class="mb-6">
+                <p><strong>Username:</strong> {{ player_profile.member.username }}</p>
+                <p><strong>ชื่อในเกม:</strong> {{ player_profile.player_name }}</p>
+                <p><strong>ชือ-สกุล:</strong> {{ player_profile.name_lastname }}</p>
+                <p><strong>อายุ:</strong> {{ player_profile.age }}</p>
+                <p><strong>เพศ:</strong> {{ player_profile.get_gender_display }}</p>
+                <p><strong>จังหวัด:</strong> {{ player_profile.province }}</p>
+                <p><strong>เบอร์มือถือ:</strong> {{ player_profile.phone_number }}</p>
+                <p><strong>Facebook:</strong> {{ player_profile.facebook }}</p>
+                <p><strong>Line:</strong> {{ player_profile.line }}</p>
+                <p><strong>คำอธิบาย:</strong> {{ player_profile.description }}</p>
+            </div>
+            
+            <!-- Work Pictures -->
+            <h2 class="text-lg font-bold mb-4">Work Pictures</h2>
+            {% if player_profile.work_pictures.exists %}
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {% for picture in player_profile.work_pictures.all %}
+                        <div class="bg-gray-100 p-4 rounded-md">
+                            <img src="{{ picture.image.url }}" alt="Work Picture" class="w-full h-32 object-cover mb-2">
+                            <p>{{ picture }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No work pictures available.</p>
+            {% endif %}
+            
             <a href="{% url 'join_requests' %}" class="inline-block mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 กลับ
             </a>

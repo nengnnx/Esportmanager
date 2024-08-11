@@ -1,0 +1,27 @@
+{% include 'components/navbar.html' %}
+
+{% block content %}
+<h2 class="text-xl font-bold mb-4">Work Pictures</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700">Upload Picture</button>
+</form>
+
+{% for picture in pictures %}
+    <div class="bg-gray-100 p-4 rounded-md flex items-center mb-4">
+        <img src="{{ picture.image.url }}" alt="Work Picture" class="w-24 h-24 object-cover mr-4">
+        <div class="flex-1">
+            <p>{{ picture }}</p>
+        </div>
+        <form action="{% url 'delete_work_picture' picture.id %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="text-red-500 hover:underline">Delete</button>
+        </form>
+    </div>
+{% empty %}
+    <p>No work pictures available.</p>
+{% endfor %}
+
+{% endblock %}

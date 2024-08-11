@@ -11,6 +11,7 @@
     <style>
         body {
             font-family: 'Noto Sans Thai', sans-serif;
+            background-color: #e5e7eb; /* Dark gray background */
         }
         .font-thin {
             font-weight: 100;
@@ -24,37 +25,37 @@
     </style>
 </head>
 <body>
-    <nav class="bg-white border-b-4 border-blue-700">
+    <nav class="bg-[#7f6eff] border-b-4 border-[#d5f87c]">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-black">TeamHub</span>
+                <span class="self-center text-2xl font-semibold text-[#d5f87c] whitespace-nowrap">TeamHub</span>
             </a>
             <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-                <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-white md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
+                <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-[#7f6eff] md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
                     <li>
-                        <a href="/" class="block py-2 px-3 text-black rounded md:bg-transparent md:p-0 hover:bg-gradient-to-r from-gray-100 to-gray-300">หาทีม</a>
+                        <a href="/" class="block py-2 px-3 text-white rounded hover:bg-[#d5f87c] hover:text-black">หาทีม</a>
                     </li>
                     <li>
-                        <a href="/profile" class="block py-2 px-3 text-black rounded hover:bg-gradient-to-r from-gray-100 to-gray-300 md:hover:bg-transparent md:border-0 md:p-0">สร้างโปรไฟล์</a>
+                        <a href="/profile" class="block py-2 px-3 text-white rounded hover:bg-[#d5f87c] hover:text-black">สร้างโปรไฟล์</a>
                     </li>
                     <li>
-                        <a href="/create_team" class="block py-2 px-3 text-black rounded hover:bg-gradient-to-r from-gray-100 to-gray-300 md:hover:bg-transparent md:border-0 md:p-0">สร้างทีม</a>
+                        <a href="/create_team" class="block py-2 px-3 text-white rounded hover:bg-[#d5f87c] hover:text-black">สร้างทีม</a>
                     </li>
                     {% if user.is_authenticated %}
                         <li class="relative">
-                            <button onclick="toggleDropdown()" class="block py-2 px-3 text-black rounded md:bg-transparent md:p-0">| สวัสดี {{ user.username }}</button>
-                            <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg">
-                                <a href="/my_team" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">ทีมของฉัน</a>
-                                <a href="/join_request" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">คำขอเข้าร่วม</a>
-                                <a href="{% url 'profile_detail' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">แสดงโปรไฟล์</a>
+                            <button onclick="toggleDropdown()" class="block py-2 px-3 text-white rounded hover:bg-[#d5f87c] hover:text-black">| สวัสดี {{ user.username }}</button>
+                            <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-[#241f20] border border-gray-200 rounded-lg shadow-lg">
+                                <a href="/my_team" class="block px-4 py-2 text-[#d5f87c] hover:bg-[#7f6eff] hover:text-black">ทีมของฉัน</a>
+                                <a href="/join_request" class="block px-4 py-2 text-[#d5f87c] hover:bg-[#7f6eff] hover:text-black">คำขอเข้าร่วม</a>
+                                <a href="{% url 'profile_detail' %}" class="block px-4 py-2 text-[#d5f87c] hover:bg-[#7f6eff] hover:text-black">แสดงโปรไฟล์</a>
                             </div>
                         </li>
                         <li>
-                            <a href="{% url 'logout' %}" class="block py-2 px-3 text-black rounded hover:bg-gradient-to-r from-gray-100 to-gray-300 md:hover:bg-transparent md:border-0 md:p-0">ออกจากระบบ</a>
+                            <a href="{% url 'logout' %}" class="block py-2 px-3 text-white rounded hover:bg-[#d5f87c] hover:text-black">ออกจากระบบ</a>
                         </li>
                     {% else %}
                         <li>
-                            <a href="{% url 'login' %}" class="block py-2 px-3 text-black rounded hover:bg-gradient-to-r from-gray-100 to-gray-300 md:hover:bg-transparent md:border-0 md:p-0">เข้าสู่ระบบ</a>
+                            <a href="{% url 'login' %}" class="block py-2 px-3 text-white rounded hover:bg-[#d5f87c] hover:text-black">เข้าสู่ระบบ</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -67,9 +68,6 @@
             const dropdown = document.getElementById('dropdownMenu');
             dropdown.classList.toggle('hidden');
         }
-
-        // Close the dropdown menu if the user clicks outside of it
-    
     </script>
 </body>
 </html>

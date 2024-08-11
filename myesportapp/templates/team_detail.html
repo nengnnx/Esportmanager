@@ -11,6 +11,11 @@
     <div class="container mx-auto my-10">
         <div class="max-w-2xl mx-auto bg-white p-6 rounded-md shadow-md">
             <h1 class="text-2xl font-bold mb-4">ชื่อทีม : {{ team.name }}</h1>
+            {% if team.logo %}
+            <div class="mb-4">
+                <img src="{{ team.logo.url }}" alt="{{ team.name }} logo" class="w-32 h-32 object-cover rounded-full mx-auto">
+            </div>
+            {% endif %}
             <p class="mb-4"><strong>ประเภทเกม:</strong> {{ team.game.name }}</p>
             <p class="mb-4"><strong>ผู้เล่นที่ต้องการ:</strong> {{ team.members_needed }}</p>
             <p class="mb-4"><strong>จำนวนผู้เล่น:</strong> {{ total_members }}</p>

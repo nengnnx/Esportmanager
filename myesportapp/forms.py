@@ -45,10 +45,11 @@ class TeamForm(forms.ModelForm):
     game = forms.ModelChoiceField(queryset=Game.objects.all(), empty_label="Select Game")
     required_rank_min = forms.ChoiceField(choices=[], required=False)
     required_rank_max = forms.ChoiceField(choices=[], required=False)
+    logo = forms.ImageField(required=False)
 
     class Meta:
         model = Team
-        fields = ['game', 'name', 'required_rank_min', 'required_rank_max', 'members_needed', 'additional_details']
+        fields = ['game', 'name', 'required_rank_min', 'required_rank_max', 'members_needed', 'additional_details', 'logo']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

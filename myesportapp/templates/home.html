@@ -42,17 +42,23 @@
                 updateRankOptions();
             }
         });
+
+        function confirmJoin(formId) {
+            if (confirm("คุณแน่ใจหรือว่าต้องการขอเข้าร่วมทีมนี้?")) {
+                document.getElementById(formId).submit();
+            }
+        }
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Sports</title>
 </head>
-<body>
+<body class="bg-gray-100">
     {% include 'components/navbar.html' %}
     {% block content %}
-    <div class="container mx-auto my-10">
-        <div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md mb-10">
-            <h1 class="text-xl font-bold mb-4">ค้นหา</h1>
+    <div class="container mx-auto my-20 flex flex-col lg:flex-row space-y-6 lg:space-y-0 lg:space-x-6">
+        <div class="max-w-md w-full bg-white p-6 rounded-md shadow-md lg:w-1/3">
+            <h1 class="text-xl font-bold mb-4">ค้นหาทีม</h1>
             <form method="get" action="{% url 'team_list' %}">
                 <div class="mb-4">
                     <label for="gameName" class="block text-gray-700 text-sm font-bold mb-2">ชื่อเกม:</label>
@@ -75,22 +81,39 @@
                         <option value="">กรุณาเลือกแรงค์สูงสุด</option>
                     </select>
                 </div>
-                <button type="submit" class="w-full bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700">ค้นหา</button>
+                <button type="submit" class="w-full bg-[#d5f87c] text-black px-4 py-2 rounded-md hover:bg-[#b4e766]">ค้นหา</button>
             </form>
-        </div>   
-
-        <div class="max-w-2xl mx-auto bg-white p-6 rounded-md shadow-md">
-            <h1 class="text-xl font-bold mb-4">ทีมทั้งหมด</h1>
+        </div>
+        <div class="max-w-4xl w-full bg-white p-6 rounded-md shadow-md lg:w-6/7 mx-auto mt-6">
+            <h1 class="text-2xl font-bold mb-6 ">ทีมทั้งหมด</h1>
             <ul>
                 {% for team in teams %}
-                <li class="flex items-center justify-between border-b border-gray-300 py-2">
-                    <span>{{ team.name }} - {{ team.game.name }}</span>
-                    <div class="flex space-x-2">
-                        <form id="join-form-{{ team.id }}" method="post" action="{% url 'join_team' team.id %}">
+                <li class="relative flex items-start justify-between border-b border-gray-300 py-6">
+                    <div class="flex items-center space-x-4">
+                        {% if team.logo %}
+                        <img src="{{ team.logo.url }}" alt="{{ team.name }} logo" class="w-24 h-24 rounded-md shadow-sm"> <!-- Increased size here -->
+                        {% endif %}
+                        <div>
+                            <span class="text-lg font-semibold text-[#7f6eff]">{{ team.name }} - {{ team.game.name }}</span>
+                            <p class="text-sm text-gray-600 mt-1">{{ team.description }}</p> <!-- Team description -->
+                            <p class="text-sm text-gray-600 mt-1">สมาชิก: {{ team.member_count }} คน</p> <!-- Number of members -->
+                        </div>
+                    </div>
+                    <div class="absolute bottom-4 right-4 flex space-x-2">
+                        <form action="{% url 'join_team' team.id %}" method="post" class="flex items-center space-x-2">
                             {% csrf_token %}
-                            <button type="button" onclick="confirmJoin('join-form-{{ team.id }}')" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700">ขอเข้าร่วม</button>
+                            <div class="relative">
+                                <select id="player_profile" name="player_profile" required class="p-2 w-32 border rounded-md bg-[#7f6eff] text-white hover:bg-[#6b5be6] text-sm">
+                                    <option value="" selected disabled>ส่งโปรไฟล์</option>
+                                    {% for profile in user.playerprofile_set.all %}
+                                        <option value="{{ profile.id }}">{{ profile.game }} - {{ profile.player_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button type="submit" class="bg-[#d5f87c] text-[#241f20] px-4 py-2 text-sm rounded-md hover:bg-[#b4e766] transition-colors">ขอเข้าร่วม</button>
                         </form>
-                        <a href="{% url 'team_detail' pk=team.id %}" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700">รายละเอียด</a>
+                        
+                        <a href="{% url 'team_detail' pk=team.id %}" class="bg-[#7f6eff] text-white px-4 py-2 text-sm rounded-md hover:bg-[#6b5be6] transition-colors">รายละเอียด</a>
                     </div>
                 </li>
                 {% empty %}
@@ -98,7 +121,10 @@
                 {% endfor %}
             </ul>
         </div>
-    </div>
+        
+        
+        
+        
     {% endblock %}
 </body>
 </html>

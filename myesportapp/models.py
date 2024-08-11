@@ -23,16 +23,18 @@ class PlayerProfile(models.Model):
     facebook = models.CharField(max_length=100, null=True, blank=False)
     line = models.CharField(max_length=100, null=True, blank=False)
     description = models.TextField( null=True, blank=False)
+    
 
     def __str__(self):
         return self.player_name
+    pass
 
 class WorkPicture(models.Model):
     player_profile = models.ForeignKey(PlayerProfile, related_name='work_pictures', on_delete=models.CASCADE,null=True, blank=False)
     image = models.ImageField(upload_to='work_pictures/', null=True, blank=False)
 
     def __str__(self):
-        return f"Picture for {self.player_profile.player_name}"
+        return f'{self.player_profile} - {self.image}'
     
 #model team
 class Game(models.Model):
@@ -57,6 +59,8 @@ class Team(models.Model):
     required_rank_max = models.CharField(max_length=100, null=True, blank=True)
     members_needed = models.IntegerField( null=True, blank=False)
     additional_details = models.TextField( null=True, blank=False)
+    logo = models.ImageField(upload_to='team_logos/', blank=True, null=True)
+    
 
     def __str__(self):
         return self.name  
@@ -64,6 +68,7 @@ class Team(models.Model):
 class JoinRequest(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='join_requests', null=True, blank=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False)
+    profile = models.ForeignKey(PlayerProfile, on_delete=models.CASCADE, null=True, blank=False)
     status = models.CharField(max_length=20, default='pending', null=True, blank=False)  
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=False)
 
